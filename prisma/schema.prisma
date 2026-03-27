@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 用户
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("STUDENT") // STUDENT, ASSISTANT, SUPERVISOR, ADMIN
+  expenses  Expense[]
+  approvals Approval[]
+  created   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 经费项目
+model Fund {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  source      String   // 纵向/横向
+  totalAmount Float
+  usedAmount  Float    @default(0)
+  startDate   DateTime
+  endDate     DateTime
+  status      String   @default("ACTIVE") // ACTIVE, WARNING, CLOSED
+  expenses    Expense[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// 报销单
+model Expense {
+  id          String   @id @default(cuid())
+  code        String   @unique // 报销单号
+  title       String
+  type        String   // TRAVEL, PURCHASE, PUBLICATION, OTHER
+  amount      Float
+  description String?
+  status      String   @default("DRAFT") // DRAFT, PENDING, APPROVED, PROCESSING, ACCEPTED, COMPLETED, REJECTED
+  fundId      String
+  fund        Fund     @relation(fields: [fundId], references: [id])
+  applicantId String
+  applicant   User     @relation(fields: [applicantId], references: [id])
+  invoices    Invoice[]
+  approvals   Approval[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// 发票
+model Invoice {
+  id          String   @id @default(cuid())
+  code        String   // 发票代码
+  number      String   // 发票号码
+  issueDate   DateTime // 开票日期
+  seller      String   // 销售方
+  amount      Float    // 金额
+  taxAmount   Float    // 税额
+  totalAmount Float    // 价税合计
+  type        String   // 类型
+  expenseId   String?
+  expense     Expense? @relation(fields: [expenseId], references: [id])
+  filePath    String?  // 电子发票文件路径
+  createdAt   DateTime @default(now())
+
+  @@unique([code, number]) // 防重
+}
+
+// 审批记录
+model Approval {
+  id         String   @id @default(cuid())
+  expenseId  String
+  expense    Expense  @relation(fields: [expenseId], references: [id])
+  approverId String
+  approver   User     @relation(fields: [approverId], references: [id])
+  action     String   // approve/reject
+  comment    String?
+  createdAt  DateTime @default(now())
+}
+
+// 采购单
+model Purchase {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  title       String
+  type        String   // 设备/耗材/服务
+  amount      Float
+  description String?
+  status      String   @default("PENDING") // PENDING, APPROVED, ORDERED, RECEIVED, COMPLETED
+  applicantId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

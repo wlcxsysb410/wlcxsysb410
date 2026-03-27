@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发票管理 - 课题组财务管理系统</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+  <div class="flex h-screen">
+    <!-- 侧边栏 -->
+    <aside class="w-64 bg-slate-800 text-white flex flex-col">
+      <div class="p-4 border-b border-slate-700">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div>
+            <h1 class="font-bold">财务系统</h1>
+            <p class="text-xs text-slate-400">实验室管理平台</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="flex-1 p-4">
+        <ul class="space-y-1">
+          <li>
+            <a href="dashboard.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition">
+              <i class="fas fa-home w-5"></i>
+              <span>仪表盘</span>
+            </a>
+          </li>
+          <li>
+            <a href="funds.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition">
+              <i class="fas fa-piggy-bank w-5"></i>
+              <span>经费管理</span>
+            </a>
+          </li>
+          <li>
+            <a href="expenses.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition">
+              <i class="fas fa-receipt w-5"></i>
+              <span>报销管理</span>
+            </a>
+          </li>
+          <li>
+            <a href="invoices.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-slate-700 text-white">
+              <i class="fas fa-file-invoice-dollar w-5"></i>
+              <span>发票管理</span>
+            </a>
+          </li>
+          <li>
+            <a href="purchases.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition">
+              <i class="fas fa-shopping-cart w-5"></i>
+              <span>采购管理</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-4 border-t border-slate-700">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 bg-slate-600 rounded-full flex items-center justify-center">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium">张三</p>
+            <p class="text-xs text-slate-400">学生</p>
+          </div>
+          <a href="login.html" class="text-slate-400 hover:text-white">
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 overflow-auto">
+      <header class="bg-white border-b border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-semibold text-gray-800">发票管理</h2>
+            <p class="text-sm text-gray-500">发票录入、查重与归档</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition flex items-center gap-2">
+              <i class="fas fa-search"></i>
+              查重
+            </button>
+            <button onclick="openModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+              <i class="fas fa-plus"></i>
+              录入发票
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="p-6">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-file-invoice text-blue-600"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">发票总数</p>
+                <p class="text-xl font-bold text-gray-800">128 张</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-check-circle text-green-600"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">已报销</p>
+                <p class="text-xl font-bold text-gray-800">115 张</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-clock text-yellow-600"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">待报销</p>
+                <p class="text-xl font-bold text-gray-800">13 张</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500">重复发票</p>
+                <p class="text-xl font-bold text-red-600">0 张</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 发票列表 -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" placeholder="搜索发票号码..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none w-64">
+              </div>
+              <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+                <option>全部类型</option>
+                <option>增值税普通发票</option>
+                <option>增值税专用发票</option>
+                <option>电子发票</option>
+              </select>
+              <input type="month" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+            </div>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition flex items-center gap-2 text-sm">
+              <i class="fas fa-download"></i>
+              导出
+            </button>
+          </div>
+
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50 text-left">
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                  <input type="checkbox" class="rounded border-gray-300">
+                </th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">发票信息</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">销售方</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">金额</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">类型</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">状态</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">关联报销</th>
+                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">操作</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300"></td>
+                <td class="px-6 py-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">012345600123</p>
+                    <p class="text-xs text-gray-500">No. 12345678</p>
+                    <p class="text-xs text-gray-400">2024-03-25</p>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">北京某某科技有限公司</td>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-medium text-gray-800">¥1,850.00</p>
+                  <p class="text-xs text-gray-500">税额: ¥106.33</p>
+                </td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">电子发票</span></td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">已报销</span></td>
+                <td class="px-6 py-4"><a href="#" class="text-sm text-blue-600 hover:underline">BX2024032501</a></td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <button class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="查看">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="p-1 text-gray-600 hover:bg-gray-50 rounded" title="下载">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300"></td>
+                <td class="px-6 py-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">012345600124</p>
+                    <p class="text-xs text-gray-500">No. 12345679</p>
+                    <p class="text-xs text-gray-400">2024-03-24</p>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">某某期刊编辑部</td>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-medium text-gray-800">¥2,000.00</p>
+                  <p class="text-xs text-gray-500">税额: ¥0.00</p>
+                </td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">普通发票</span></td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">已报销</span></td>
+                <td class="px-6 py-4"><a href="#" class="text-sm text-blue-600 hover:underline">BX2024032401</a></td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <button class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="查看">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="p-1 text-gray-600 hover:bg-gray-50 rounded" title="下载">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50 bg-yellow-50">
+                <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300"></td>
+                <td class="px-6 py-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">012345600125</p>
+                    <p class="text-xs text-gray-500">No. 12345680</p>
+                    <p class="text-xs text-gray-400">2024-03-26</p>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">京东商城</td>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-medium text-gray-800">¥3,670.00</p>
+                  <p class="text-xs text-gray-500">税额: ¥476.70</p>
+                </td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">专用发票</span></td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">待报销</span></td>
+                <td class="px-6 py-4"><span class="text-sm text-gray-400">-</span></td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <button class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="查看">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="p-1 text-green-600 hover:bg-green-50 rounded" title="关联报销">
+                      <i class="fas fa-link"></i>
+                    </button>
+                    <button class="p-1 text-gray-600 hover:bg-gray-50 rounded" title="下载">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300"></td>
+                <td class="px-6 py-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-800">012345600126</p>
+                    <p class="text-xs text-gray-500">No. 12345681</p>
+                    <p class="text-xs text-gray-400">2024-03-20</p>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">北京航空服务有限公司</td>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-medium text-gray-800">¥1,299.00</p>
+                  <p class="text-xs text-gray-500">税额: ¥0.00</p>
+                </td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">电子发票</span></td>
+                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">已报销</span></td>
+                <td class="px-6 py-4"><a href="#" class="text-sm text-blue-600 hover:underline">BX2024032001</a></td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-2">
+                    <button class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="查看">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="p-1 text-gray-600 hover:bg-gray-50 rounded" title="下载">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- 分页 -->
+          <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+            <p class="text-sm text-gray-500">显示 1-4 共 128 条</p>
+            <div class="flex items-center gap-2">
+              <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 disabled:opacity-50" disabled>上一页</button>
+              <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
+              <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">2</button>
+              <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">3</button>
+              <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">下一页</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 录入发票弹窗 -->
+  <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-auto">
+      <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h3 class="text-lg font-semibold">录入发票</h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <form class="p-6 space-y-4">
+        <!-- 上传区域 -->
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition cursor-pointer mb-4">
+          <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+          <p class="text-sm text-gray-500">点击或拖拽上传电子发票</p>
+          <p class="text-xs text-gray-400 mt-1">支持 PDF、JPG、PNG 格式，系统将自动识别发票信息</p>
+        </div>
+
+        <div class="text-center text-gray-400 my-2">—— 或手动填写 ——</div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">发票代码</label>
+            <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="如：012345600123">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">发票号码</label>
+            <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="如：12345678">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">开票日期</label>
+            <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">发票类型</label>
+            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+              <option>增值税普通发票</option>
+              <option>增值税专用发票</option>
+              <option>电子发票</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">销售方名称</label>
+          <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="销售方公司名称">
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">金额（不含税）</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">¥</span>
+              <input type="number" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="0.00">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">税额</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">¥</span>
+              <input type="number" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="0.00">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">价税合计</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">¥</span>
+              <input type="number" class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-gray-50" placeholder="自动计算" readonly>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">关联报销单（可选）</label>
+          <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+            <option>不关联</option>
+            <option>BX2024032501 - 北京出差报销</option>
+            <option>BX2024032401 - 论文版面费</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+          <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition">取消</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+  </script>
+</body>
+</html>
